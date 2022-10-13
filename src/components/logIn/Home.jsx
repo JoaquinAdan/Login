@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import LogIn from "./LogIn";
+import Footer from "./Footer";
 
 const Home = () => {
   const [side, setSide] = useState(false);
@@ -24,6 +25,8 @@ const Home = () => {
         </a>
       </div>
       <LogIn setSide={setSide} />
+      
+      <Footer />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   color: #303030;
@@ -54,7 +53,6 @@ body {
 }
 .title-text {
   margin-bottom: 40px;
-  font-size: 2rem;
 }
 .span-text {
   font-weight: 700;
@@ -67,10 +65,19 @@ body {
 /** FORMULARIO **/
 .input-container {
   position: relative;
-  margin-bottom: 2rem;
 }
 .input {
+  border: none;
+  background-color: #f0f0f0;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+  margin-bottom: 2rem;
   width: 380px;
+  height: 20px;
+  outline: none;
+  transition: 0.3s ease;
+  font-size: 1rem;
+  text-align: center;
 }
 .input:focus {
   height: 24px;
@@ -110,7 +117,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 .checkbox-container {
   display: flex;
@@ -122,9 +129,8 @@ body {
   height: 20px;
 }
 .error-relative {
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

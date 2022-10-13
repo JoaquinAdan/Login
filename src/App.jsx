@@ -1,14 +1,16 @@
 import "./App.css";
-import Home from "./components/Home";
-import Footer from "./components/Footer";
+import Home from "./components/LogIn/Home";
+import Loby from "./components/master/Loby";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  // http://hacienda.campana.gov.ar/Admin.aspx
   return (
-    <div className="App">
-      <Home />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/home" element={<Loby />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

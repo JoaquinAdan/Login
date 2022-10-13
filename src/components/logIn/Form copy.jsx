@@ -7,36 +7,59 @@ const FormContainer = () => {
   const [inputNameText, setInputNameText] = useState(initialState);
   const [inputLastNameText, setInputLastNameText] = useState(initialState);
   const [selected, setSelected] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
+  // const [nombre, setNombre] = useState("");
+  // const [apellido, setApellido] = useState("");
   const [validation, setValidation] = useState(false);
-  //   const [savedData, setSavedData] = useState(false);
+
+  //MANEJADOR DE INPUTS
 
   const handleInputNameChange = (e) => {
-    const text = e.target.value;
-    setInputNameText(text);
+    // const text = e.target.value;
+    // setInputNameText(text);
+    const inputN = document.getElementById("input-name");
+    setInputNameText(inputN.value);
     console.log(inputNameText);
-    // if (text === "") {
-    //   setSavedData(false);
-    // }
   };
 
   const handleInputLastNameChange = (e) => {
-    const text = e.target.value;
-    setInputLastNameText(text);
+    // const text = e.target.value;
+    // setInputLastNameText(text);
+    const inputLN = document.getElementById("input-last-name");
+    setInputLastNameText(inputLN.value);
     console.log(inputLastNameText);
-    // if (text === "") {
-    //   setSavedData(false);
-    // }
   };
 
+  const handleCheckboxChange = (e) => {
+    setSelected(e.target.checked);
+    // console.log(e.target.checked);
+
+    if (e.target.checked === false) {
+      localStorage.removeItem("nombre", inputNameText);
+      localStorage.removeItem("apellido", inputLastNameText);
+      localStorage.removeItem("toggle-switch", e.target.checked);
+    }
+  };
+
+  //GUARDAR INFORMACION EN LOCAL STORAGE Y VALIDACION DE CAMPOS
+  // console.log(inputLastNameText);
+
   const saveData = () => {
-    const inputName = document.querySelector("#input-name").value;
-    const inputLastName = document.querySelector("#input-last-name").value;
-    if (inputName && inputLastName) {
-      localStorage.setItem("nombre", inputNameText);
-      localStorage.setItem("apellido", inputLastNameText);
-      alert("has guardado tu nombre");
+    const dependencie =
+      inputNameText !== initialState &&
+      inputLastNameText !== initialState &&
+      inputNameText != null &&
+      inputLastNameText != null;
+
+    if (dependencie) {
+      if (selected === true) {
+        localStorage.setItem("nombre", inputNameText);
+        localStorage.setItem("apellido", inputLastNameText);
+      }
+      inputNameText !== "" && inputLastNameText !== ""
+        ? localStorage.setItem("toggle-switch", selected === true)
+        : null;
+      // alert("has guardado tu nombre");
+      location.href = "http://127.0.0.1:5174/";
     } else {
       setTimeout(() => {
         setValidation(true);
@@ -45,8 +68,9 @@ const FormContainer = () => {
         setValidation(false);
       }, 3000);
     }
-    // setSavedData(true);
   };
+
+  // RECIBIR INFORMACION DE LOCAL STORAGE
 
   const getNameData = () => {
     return localStorage.getItem("nombre");
@@ -61,11 +85,23 @@ const FormContainer = () => {
   };
 
   useEffect(() => {
-    setNombre(getNameData());
-    setApellido(getLastNameData());
-    setSelected(getToggleData());
+    if (window.localStorage.length === 1) {
+      const inputLN = document.getElementById("input-last-name");
+      setInputLastNameText(inputLN.value);
+      const inputN = document.getElementById("input-name");
+      setInputNameText(inputN.value);
+    } else {
+      // setNombre(getNameData());
+      setInputNameText(getNameData());
+      // setApellido(getLastNameData());
+      setInputLastNameText(getLastNameData());
+      setSelected(getToggleData());
+    }
   }, []);
-  console.log(selected);
+  // console.log(selected);
+
+  //JSX
+
   return (
     <div>
       <div className="input-container">
@@ -79,7 +115,7 @@ const FormContainer = () => {
           id="input-name"
           onChange={handleInputNameChange}
           placeholder="Ingrese su nombre"
-          value={selected ? nombre : undefined}
+          value={selected ? inputNameText : undefined}
         />
         {selected ? (
           <GiPadlock
@@ -101,7 +137,7 @@ const FormContainer = () => {
           }
           onChange={handleInputLastNameChange}
           placeholder="Ingrese su apellido"
-          value={selected ? apellido : undefined}
+          value={selected ? inputLastNameText : undefined}
         />
         {selected ? (
           <GiPadlock
@@ -125,26 +161,7 @@ const FormContainer = () => {
             type="checkbox"
             className="checkbox"
             // onClick={() => setCheck(!check)}
-            onChange={(e) => {
-              const inputName = document.querySelector("#input-name").value;
-              const inputLastName =
-                document.querySelector("#input-last-name").value;
-              console.log(e.target.checked);
-              setSelected(e.target.checked);
-              
-              inputName === "" && inputLastName === ""
-                ? null
-                : localStorage.setItem(
-                    "toggle-switch",
-                    e.target.checked === true
-                  );
-
-              if (e.target.checked === false) {
-                localStorage.removeItem("nombre", inputNameText);
-                localStorage.removeItem("apellido", inputLastNameText);
-                localStorage.removeItem("toggle-switch", e.target.checked);
-              } 
-            }}
+            onChange={handleCheckboxChange}
             checked={selected}
           />
           <span className="span-text">Recordar usuario</span>
